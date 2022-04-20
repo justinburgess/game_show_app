@@ -62,10 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // verifies button target and stops accidentally selecting a previous selection
         if ( clickTarget.tagName === 'BUTTON' && letterFirstClick) {
             clickTarget.classList.add('chosen');
-            const letterVerified = checkLetter(letter);
+            const letterInPhrase = checkLetter(letter);
 
             // if letter does not exist in phrase, decrements one heart
-            if (!letterVerified){
+            if (!letterInPhrase){
                 heart.className = '';
                 heart.firstElementChild.src="images/lostHeart.png";
                 missed++;
