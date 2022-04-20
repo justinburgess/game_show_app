@@ -13,15 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
     */
 
     // number of incorrect guesses before losing game
-    heartCount = 5; 
-    heartString = `<li class="tries"><img src="images/liveHeart.png" height="35px" width="30px"></li>`
+    const heartCount = 5; 
+    const heartString = `<li class="tries"><img src="images/liveHeart.png" height="35px" width="30px"></li>`;
 
     // returns hearts in HTML based on count variable
     const hearts = count => {
         const heartList = document.createElement('ol');
-        heartList.innerHTML = heartString.repeat(count)
-        return heartList
-    }
+        heartList.innerHTML = heartString.repeat(count);
+        return heartList;
+    };
 
     // counts missed guesses
     let missed = 0; 
@@ -57,16 +57,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const clickTarget = event.target;
         const letter = clickTarget.textContent;
         const letterFirstClick = clickTarget.className !== 'chosen';
-        const heart = scoreBoard.firstElementChild.firstElementChild;
+        const heart = document.querySelector('.tries');
 
         // verifies button target and stops accidentally selecting a previous selection
         if ( clickTarget.tagName === 'BUTTON' && letterFirstClick) {
             clickTarget.classList.add('chosen');
-            letterVerified = checkLetter(letter);
+            const letterVerified = checkLetter(letter);
 
             // if letter does not exist in phrase, decrements one heart
             if (!letterVerified){
-                heart.remove();
+                heart.className = '';
+                heart.firstElementChild.src="images/lostHeart.png";
                 missed++;
             }
         }
@@ -94,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // breaks down ingested phrase into letters, appends them to individual list items
         for (let i = 0; i < chosenPhrase.length; i++) {
             const letter = chosenPhrase[i];
-            let li = document.createElement('li')
+            let li = document.createElement('li');
             li.textContent = letter;
 
             // appends list items to the phrase div in an unordered list
@@ -112,8 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < lis.length; i++){
             const li = lis[i];
             if (letter === li.textContent.toLowerCase()) {
-                li.style.transition = 'all .5s'
-                li.style.transform = 
+                li.style.transition = 'all .5s';
                 li.classList.add('show');
                 match = li.textContent;
             }
@@ -155,10 +155,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function resetGame(){
         let startButtons = document.querySelectorAll('button.chosen');
         for (let i = 0; i < startButtons.length; i++) {
-            button = startButtons[i];
+            let button = startButtons[i];
             button.classList.remove('chosen');
         }
-        phraseElement.innerHTML = '<ul></ul>'
+        phraseElement.innerHTML = '<ul></ul>';
         scoreBoard.firstElementChild.remove();
         scoreBoard.appendChild(hearts(heartCount));
         btnResetClass.parentElement.className = 'start';
