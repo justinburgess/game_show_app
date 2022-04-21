@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     */
 
     // number of incorrect guesses before losing game
-    const heartCount = 5; 
+    const startingHeartCount = 5; 
     const heartString = `<li class="tries"><img src="images/liveHeart.png" height="35px" width="30px"></li>`;
 
     // returns hearts in HTML based on count variable
@@ -24,7 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // counts missed guesses
-    let missed = 0; 
+    let missed = 0;
+
+
     const phrases = [
         'Under the weather',
         'The last straw',
@@ -92,16 +94,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const ul = phraseElement.firstElementChild;
         const chosenPhrase = getRandomPhraseAsArray();
 
-        // breaks down ingested phrase into letters, appends them to individual list items
+        // breaks down ingested phrase into letters, appends them to html as list items
         for (let i = 0; i < chosenPhrase.length; i++) {
             const letter = chosenPhrase[i];
             let li = document.createElement('li');
             li.textContent = letter;
+            ul.appendChild(li);            
 
-            // appends list items to the phrase div in an unordered list
-            ul.appendChild(li);
-
-            // appends class name 'letter' for non-whitespace and 'space' for whitespace characters
+            // identifies element as 'letter' for non-whitespace and 'space' for whitespace characters
             li.className = (letter !== ' ') ? 'letter' : 'space'; 
         }
     }
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (classLetter.length === classShow.length) {
             gameStatusOverlay('win');
         }
-        if (missed >= heartCount) {
+        if (missed >= startingHeartCount) {
             gameStatusOverlay('lose');
         }
     }
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         phraseElement.innerHTML = '<ul></ul>';
         scoreBoard.firstElementChild.remove();
-        scoreBoard.appendChild(hearts(heartCount));
+        scoreBoard.appendChild(hearts(startingHeartCount));
         btnResetClass.parentElement.className = 'start';
         missed = 0;
     }
