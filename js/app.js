@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 match = li.textContent;
             }
         }
-        return match; // to be evaluated as false
+        return match; // to be evaluated as false on return
     }
 
     // applies win or loss overlay if phrase letters or hearts have been exhausted
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (classLetter.length === classShow.length) {
             gameStatusOverlay('win');
         }
-        if (missed > 4) {
+        if (missed >= heartCount) {
             gameStatusOverlay('lose');
         }
     }
